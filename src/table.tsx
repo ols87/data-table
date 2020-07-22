@@ -7,23 +7,9 @@ import { TableDataInterface } from "./table.interface";
 })
 export class ComponentTable {
   @Prop() data: TableDataInterface = {
-    columns: [
-      {
-        label: "Foo",
-        map: "foo",
-      },
-    ],
-    rows: [
-      {
-        id: 0,
-        foo: "bar",
-      },
-    ],
-    actions: {
-      edit: (id) => {
-        console.log(id);
-      },
-    },
+    columns: [],
+    rows: [],
+    actions: {},
   };
 
   validateData() {
