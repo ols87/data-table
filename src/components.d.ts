@@ -5,7 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { TableDataInterface, } from "./table.interface";
+import { TableDataInterface } from "./table.interface";
 export namespace Components {
     interface IcOn {
         "icon": string;

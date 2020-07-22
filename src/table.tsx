@@ -19,6 +19,11 @@ export class ComponentTable {
         foo: "bar",
       },
     ],
+    actions: {
+      edit: (id) => {
+        console.log(id);
+      },
+    },
   };
 
   validateData() {
@@ -63,10 +68,14 @@ export class ComponentTable {
                 {actions ? (
                   <td>
                     {actions.edit ? (
-                      <a onClick={() => actions.edit(row.id)}>edit</a>
+                      <a onClick={() => actions.edit(row.id)}>
+                        <ic-on icon="pencil-outline"></ic-on>
+                      </a>
                     ) : null}
                     {actions.delete ? (
-                      <a onClick={() => actions.delete(row.id)}>delete</a>
+                      <a onClick={() => actions.delete(row.id)}>
+                        <ic-on icon="delete-outline"></ic-on>
+                      </a>
                     ) : null}
                   </td>
                 ) : null}
