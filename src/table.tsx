@@ -1,8 +1,9 @@
 import { Component, h, Prop } from "@stencil/core";
 import { TableDataInterface } from "./table.interface";
+import "@vudo/icon";
 
 @Component({
-  tag: "ta-ble",
+  tag: "vudo-table",
   styleUrl: "table.css",
 })
 export class ComponentTable {
@@ -27,9 +28,7 @@ export class ComponentTable {
   }
 
   render() {
-    const columns = this.data.columns;
-    const rows = this.data.rows;
-    const actions = this.data.actions;
+    const { columns, rows, actions } = this.data;
 
     return (
       <table>
@@ -55,12 +54,12 @@ export class ComponentTable {
                   <td>
                     {actions.edit ? (
                       <a onClick={() => actions.edit(row.id)}>
-                        <ic-on icon="pencil-outline"></ic-on>
+                        <vudo-icon name="pencil-outline"></vudo-icon>
                       </a>
                     ) : null}
                     {actions.delete ? (
                       <a onClick={() => actions.delete(row.id)}>
-                        <ic-on icon="delete-outline"></ic-on>
+                        <vudo-icon name="delete-outline"></vudo-icon>
                       </a>
                     ) : null}
                   </td>

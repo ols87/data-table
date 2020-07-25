@@ -7,49 +7,34 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { TableDataInterface } from "./table.interface";
 export namespace Components {
-    interface IcOn {
-        "icon": string;
-    }
-    interface TaBle {
+    interface VudoTable {
         "data": TableDataInterface;
     }
 }
 declare global {
-    interface HTMLIcOnElement extends Components.IcOn, HTMLStencilElement {
+    interface HTMLVudoTableElement extends Components.VudoTable, HTMLStencilElement {
     }
-    var HTMLIcOnElement: {
-        prototype: HTMLIcOnElement;
-        new (): HTMLIcOnElement;
-    };
-    interface HTMLTaBleElement extends Components.TaBle, HTMLStencilElement {
-    }
-    var HTMLTaBleElement: {
-        prototype: HTMLTaBleElement;
-        new (): HTMLTaBleElement;
+    var HTMLVudoTableElement: {
+        prototype: HTMLVudoTableElement;
+        new (): HTMLVudoTableElement;
     };
     interface HTMLElementTagNameMap {
-        "ic-on": HTMLIcOnElement;
-        "ta-ble": HTMLTaBleElement;
+        "vudo-table": HTMLVudoTableElement;
     }
 }
 declare namespace LocalJSX {
-    interface IcOn {
-        "icon"?: string;
-    }
-    interface TaBle {
+    interface VudoTable {
         "data"?: TableDataInterface;
     }
     interface IntrinsicElements {
-        "ic-on": IcOn;
-        "ta-ble": TaBle;
+        "vudo-table": VudoTable;
     }
 }
 export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "ic-on": LocalJSX.IcOn & JSXBase.HTMLAttributes<HTMLIcOnElement>;
-            "ta-ble": LocalJSX.TaBle & JSXBase.HTMLAttributes<HTMLTaBleElement>;
+            "vudo-table": LocalJSX.VudoTable & JSXBase.HTMLAttributes<HTMLVudoTableElement>;
         }
     }
 }
