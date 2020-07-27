@@ -13,20 +13,6 @@ export class ComponentTable {
     actions: {},
   };
 
-  validateData(): boolean {
-    let valid: boolean = true;
-
-    let columnLength = this.data.columns.length;
-
-    this.data.rows.forEach((row) => {
-      let rowLength: number = Object.values(row).length - 1;
-
-      if (valid) valid = rowLength === columnLength;
-    });
-
-    return valid;
-  }
-
   render() {
     const { columns, rows, actions } = this.data;
 
@@ -51,14 +37,14 @@ export class ComponentTable {
                 })}
 
                 {actions ? (
-                  <td>
+                  <td class="action-col">
                     {actions.edit ? (
-                      <a onClick={() => actions.edit(row.id)}>
+                      <a onClick={() => actions.edit(row)}>
                         <vudo-icon name="pencil-outline"></vudo-icon>
                       </a>
                     ) : null}
                     {actions.delete ? (
-                      <a onClick={() => actions.delete(row.id)}>
+                      <a onClick={() => actions.delete(row)}>
                         <vudo-icon name="delete-outline"></vudo-icon>
                       </a>
                     ) : null}

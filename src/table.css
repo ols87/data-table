@@ -1,1 +1,40 @@
+vudo-table {
+  @apply block;
+  @apply overflow-x-scroll;
+  @apply shadow-xl;
+  @apply rounded-md;
 
+  table {
+    @apply w-full;
+    @apply rounded-r;
+    @apply border-0;
+    @apply border-collapse;
+    @apply overflow-x-scroll;
+  }
+
+  tr {
+    @apply border-0;
+
+    & + tr {
+      @apply border-t border-solid border-gray-200;
+    }
+  }
+
+  th {
+    @apply p-3;
+    @apply text-left;
+    @apply bg-gray-800;
+    @apply text-white;
+  }
+
+  td {
+    @apply p-4;
+    @apply border-0;
+    @apply align-middle;
+    @apply truncate;
+  }
+
+  .action-col {
+    @apply w-20;
+  }
+}

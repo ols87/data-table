@@ -1,7 +1,7 @@
 {
   "name": "@vudo/table",
-  "version": "0.0.4",
-  "description": "Stencil Component Starter",
+  "version": "0.0.10",
+  "description": "Vudo Table Component",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "es2015": "dist/esm/index.mjs",
@@ -31,10 +31,8 @@
     "@types/puppeteer": "2.0.1",
     "jest": "24.9.0",
     "jest-cli": "^24.9.0",
-    "puppeteer": "2.1.1"
-  },
-  "license": "MIT",
-  "dependencies": {
+    "puppeteer": "2.1.1",
     "@vudo/icon": "^0.1.0"
-  }
+  },
+  "license": "MIT"
 }
