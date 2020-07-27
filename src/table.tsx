@@ -13,7 +13,7 @@ export class ComponentTable {
     actions: {},
   };
 
-  validateData() {
+  validateData(): boolean {
     let valid: boolean = true;
 
     let columnLength = this.data.columns.length;

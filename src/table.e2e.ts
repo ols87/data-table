@@ -8,8 +8,8 @@ describe("component-table", () => {
   beforeEach(async () => {
     page = await newE2EPage();
 
-    await page.setContent("<component-table></component-table>");
-    component = await page.find("component-table");
+    await page.setContent("<vudo-table></vudo-table>");
+    component = await page.find("vudo-table");
   });
 
   it("renders component", async () => {
