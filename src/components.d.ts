@@ -5,13 +5,21 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { TableDataInterface } from "./table.interface";
+import { TableDataInterface } from "./components/table/table.interface";
 export namespace Components {
+    interface SiteRoot {
+    }
     interface VudoTable {
         "data": TableDataInterface;
     }
 }
 declare global {
+    interface HTMLSiteRootElement extends Components.SiteRoot, HTMLStencilElement {
+    }
+    var HTMLSiteRootElement: {
+        prototype: HTMLSiteRootElement;
+        new (): HTMLSiteRootElement;
+    };
     interface HTMLVudoTableElement extends Components.VudoTable, HTMLStencilElement {
     }
     var HTMLVudoTableElement: {
@@ -19,14 +27,21 @@ declare global {
         new (): HTMLVudoTableElement;
     };
     interface HTMLElementTagNameMap {
+        "site-root": HTMLSiteRootElement;
         "vudo-table": HTMLVudoTableElement;
     }
 }
 declare namespace LocalJSX {
+    interface SiteRoot {
+    }
     interface VudoTable {
         "data"?: TableDataInterface;
+        "onDelete"?: (event: CustomEvent<any>) => void;
+        "onSearch"?: (event: CustomEvent<any>) => void;
+        "onSort"?: (event: CustomEvent<any>) => void;
     }
     interface IntrinsicElements {
+        "site-root": SiteRoot;
         "vudo-table": VudoTable;
     }
 }
@@ -34,6 +49,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "site-root": LocalJSX.SiteRoot & JSXBase.HTMLAttributes<HTMLSiteRootElement>;
             "vudo-table": LocalJSX.VudoTable & JSXBase.HTMLAttributes<HTMLVudoTableElement>;
         }
     }

@@ -1,0 +1,102 @@
+vudo-table {
+  @apply block;
+  @apply overflow-x-scroll;
+  @apply shadow-xl;
+  @apply rounded-md;
+
+  input{
+    @apply m-auto;
+    @apply block;
+    @apply px-4 py-2;
+    @apply mb-2;
+    @apply outline-none;
+    @apply rounded;
+    @apply border-0;
+    @apply shadow-xl;
+    width:350px;
+  }
+
+  table {
+    @apply w-full;
+    @apply rounded-r;
+    @apply border-0;
+    @apply border-collapse;
+    @apply overflow-x-scroll;
+  }
+
+  thead{
+    th{
+      @apply cursor-pointer;
+    }
+  }
+
+  tr {
+    @apply border-0;
+
+    & + tr {
+      @apply border-t border-solid border-gray-200;
+    }
+  }
+
+  th {
+    @apply p-3;
+    @apply text-left;
+    @apply bg-gray-800;
+    @apply text-white;
+  }
+
+  td {
+    @apply p-4;
+    @apply border-0;
+    @apply align-middle;
+    @apply truncate;
+  }
+
+  .action-col {
+    @apply w-20;
+
+    .iconify{
+      @apply text-red-700;
+      @apply text-xl;
+      @apply cursor-pointer;
+      color:red;
+    }
+  }
+
+  ul{
+    @apply flex;
+    @apply justify-end;
+    @apply pr-3;
+    @apply m-0;
+    @apply bg-gray-800;
+    @apply text-white;
+    @apply list-none;
+
+    li{
+      @apply flex;
+      @apply justify-center;
+      @apply items-center;
+      @apply py-2;
+      @apply px-3;
+      @apply mr-1;
+      @apply cursor-pointer;
+
+      &:last-child,
+      &:first-child {
+         @apply px-2;
+      }
+
+      &:hover{
+        @apply bg-gray-900;
+      }
+
+      .iconify{
+        @apply text-2xl;
+      }
+
+      &.active{
+        @apply bg-gray-900;
+      }
+    }
+  }
+}
