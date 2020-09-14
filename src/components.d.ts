@@ -5,12 +5,14 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { TableDataInterface } from "./components/table/table.interface";
+import { TableColumnInterface, TableDataInterface, TableRowInterface } from "./components/table/table.interface";
 export namespace Components {
     interface SiteRoot {
     }
     interface VudoTable {
+        "currentPage": number;
         "data": TableDataInterface;
+        "itemsPerPage": number;
     }
 }
 declare global {
@@ -35,10 +37,11 @@ declare namespace LocalJSX {
     interface SiteRoot {
     }
     interface VudoTable {
+        "currentPage"?: number;
         "data"?: TableDataInterface;
-        "onDelete"?: (event: CustomEvent<any>) => void;
-        "onSearch"?: (event: CustomEvent<any>) => void;
-        "onSort"?: (event: CustomEvent<any>) => void;
+        "itemsPerPage"?: number;
+        "onSearchTable"?: (event: CustomEvent<TableRowInterface[]>) => void;
+        "onSortTable"?: (event: CustomEvent<TableColumnInterface>) => void;
     }
     interface IntrinsicElements {
         "site-root": SiteRoot;

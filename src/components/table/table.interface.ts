@@ -5,7 +5,7 @@ export interface TableColumnInterface {
 
 export interface TableRowInterface {
   id: number;
-  [key: string]: string | number | Function;
+  [key: string]: any;
 }
 
 export interface TableActionsInterface {

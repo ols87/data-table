@@ -1,13 +1,9 @@
+import { Component, h, Prop, State, Event, EventEmitter } from "@stencil/core";
 import {
-  Component,
-  h,
-  Prop,
-  State,
-  Event,
-  EventEmitter,
-  Listen,
-} from "@stencil/core";
-import { TableDataInterface } from "./table.interface";
+  TableDataInterface,
+  TableColumnInterface,
+  TableRowInterface,
+} from "./table.interface";
 import "@vudo/icon";
 
 @Component({
@@ -15,44 +11,50 @@ import "@vudo/icon";
   styleUrl: "table.css",
 })
 export class ComponentTable {
-  @State() currentPageNumber: number = 1;
-  @State() itemPerPage: number = 2;
   @State() sortBy: string = "asc";
+
+  @Prop() currentPage: number = 1;
+
+  @Prop() itemsPerPage: number = 4;
+
   @Prop() data: TableDataInterface = {
     columns: [],
     rows: [],
     actions: {},
   };
 
-  @Event() search: EventEmitter<any>;
-  searchHandler(e: any) {
-    this.search.emit(e);
+  @State() viewData: TableDataInterface = this.data;
+
+  @Event() searchTable: EventEmitter<TableRowInterface[]>;
+  search(searchText: string) {
+    this.viewData = { ...this.data };
+
+    let search = searchText?.toLowerCase();
+
+    let result: Array<TableRowInterface> = [];
+
+    let temp: Array<TableRowInterface> = [...this.data.rows];
+
+    temp.forEach((item: TableRowInterface) => {
+      if (item.name.toLowerCase().indexOf(search) > -1)
+        return result.push(item);
+    });
+
+    if (this.viewData.rows.length < 1) this.viewData = { ...this.data };
+
+    this.viewData = { ...this.viewData, rows: result };
+
+    this.searchTable.emit(result);
   }
 
-  @Event() delete: EventEmitter<any>;
-  deleteHandler(data: any) {
-    this.delete.emit(data);
-  }
+  @Event() sortTable: EventEmitter<TableColumnInterface>;
+  sort(column: TableColumnInterface) {
+    let result = this.viewData.rows;
 
-  @Event() sort: EventEmitter<any>;
-  sortHandler(e: any) {
-    this.sort.emit(e);
-  }
-
-  @Listen("delete")
-  onDelete(data: any) {
-    let id = data.detail;
-    let result = this.data.rows.filter((item) => item.id != id);
-    this.data = { ...this.data, rows: result };
-  }
-
-  @Listen("sort")
-  onSort(data: any) {
-    let column = data.detail.map;
-    let result = this.data.rows;
     result.sort((a, b) => {
-      let valueA = a[column].toString().toLocaleLowerCase();
-      let valueB = b[column].toString().toLocaleLowerCase();
+      let valueA = a[column.map].toString().toLocaleLowerCase();
+
+      let valueB = b[column.map].toString().toLocaleLowerCase();
 
       if (valueA < valueB) {
         let result = this.sortBy === "asc" ? -1 : 1;
@@ -66,53 +68,62 @@ export class ComponentTable {
 
       return 0;
     });
-    this.data = { ...this.data, rows: result };
+
+    this.viewData = { ...this.viewData, rows: result };
+
     this.sortBy = this.sortBy === "asc" ? "desc" : "asc";
+
+    this.sortTable.emit(column);
   }
 
   pagination(total: number, perPage: number) {
     let pageNumber = [];
+
     for (let i = 1; i <= Math.ceil(total / perPage); i++) {
       pageNumber.push(i);
     }
+
     return pageNumber;
   }
 
-  changeCurrentPageNumber(type: string) {
+  changePage(type: string) {
     if (type === "next") {
-      if (this.currentPageNumber >= this.data.rows.length / this.itemPerPage) {
+      if (this.currentPage >= this.viewData.rows.length / this.itemsPerPage) {
         return;
       }
-      this.currentPageNumber = this.currentPageNumber + 1;
+
+      this.currentPage = this.currentPage + 1;
     } else {
-      if (this.currentPageNumber === 1) {
+      if (this.currentPage === 1) {
         return;
       }
-      this.currentPageNumber = this.currentPageNumber - 1;
+
+      this.currentPage = this.currentPage - 1;
     }
   }
 
   render() {
-    const { columns, rows, actions } = this.data;
+    const { columns, rows, actions } = this.viewData;
 
-    let indexOfLastPage = this.currentPageNumber * this.itemPerPage;
-    let indexOfFirstPage = indexOfLastPage - this.itemPerPage;
+    let lastPage = this.currentPage * this.itemsPerPage;
+
+    let firstPage = lastPage - this.itemsPerPage;
+
     return (
       <div>
         <input
           name="search"
           type="text"
           placeholder="Search"
-          onInput={(e) => this.searchHandler(e)}
+          onInput={(e: any) => this.search(e.target?.value)}
         />
+
         <table>
           <thead>
             <tr>
               {columns.map((column) => {
                 return (
-                  <th onClick={() => this.sortHandler(column)}>
-                    {column.label}
-                  </th>
+                  <th onClick={() => this.sort(column)}>{column.label}</th>
                 );
               })}
 
@@ -121,7 +132,7 @@ export class ComponentTable {
           </thead>
 
           <tbody>
-            {rows.slice(indexOfFirstPage, indexOfLastPage).map((row) => {
+            {rows?.slice(firstPage, lastPage).map((row) => {
               return (
                 <tr>
                   {columns.map((column) => {
@@ -140,13 +151,6 @@ export class ComponentTable {
                           <vudo-icon name="delete-outline"></vudo-icon>
                         </a>
                       ) : null}
-                      <a onClick={() => this.deleteHandler(row.id)}>
-                        <span
-                          class="iconify"
-                          data-icon="mdi:delete"
-                          data-inline="false"
-                        ></span>
-                      </a>
                     </td>
                   ) : null}
                 </tr>
@@ -154,28 +158,23 @@ export class ComponentTable {
             })}
           </tbody>
         </table>
+
         <ul>
-          <li onClick={() => this.changeCurrentPageNumber("next")}>
-            <span
-              class="iconify"
-              data-icon="mdi:chevron-double-right"
-              data-inline="false"
-            ></span>
+          <li onClick={() => this.changePage("back")}>
+            <vudo-icon name="chevron-left"></vudo-icon>
           </li>
-          {this.pagination(rows.length, this.itemPerPage).map((item) => (
+
+          {this.pagination(rows.length, this.itemsPerPage).map((item) => (
             <li
-              class={this.currentPageNumber === item ? "active" : ""}
-              onClick={() => (this.currentPageNumber = item)}
+              class={this.currentPage === item ? "active" : ""}
+              onClick={() => (this.currentPage = item)}
             >
               {item}
             </li>
           ))}
-          <li onClick={() => this.changeCurrentPageNumber("back")}>
-            <span
-              class="iconify"
-              data-icon="mdi:chevron-double-left"
-              data-inline="false"
-            ></span>
+
+          <li onClick={() => this.changePage("next")}>
+            <vudo-icon name="chevron-right"></vudo-icon>
           </li>
         </ul>
       </div>

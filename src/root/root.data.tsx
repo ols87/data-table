@@ -1,4 +1,6 @@
-export const data ={
+import { h } from "@stencil/core";
+
+export const data = {
   columns: [
     {
       label: "ID",
@@ -22,7 +24,7 @@ export const data ={
     {
       id: 2,
       name: "Lael Greer",
-      address: "Ohio",
+      address: <div>{(() => 1 + 1)()}</div>,
     },
     {
       id: 3,
@@ -45,5 +47,8 @@ export const data ={
       address: "Phio",
     },
   ],
-  actions: {},
+  actions: {
+    edit: (id) => console.log(id),
+    delete: (id) => console.log(id),
+  },
 };
