@@ -1,4 +1,12 @@
-import { Component, h, Prop, State, Event, EventEmitter } from "@stencil/core";
+import {
+  Component,
+  h,
+  Prop,
+  State,
+  Event,
+  EventEmitter,
+  Host,
+} from "@stencil/core";
 import {
   TableDataInterface,
   TableColumnInterface,
@@ -110,7 +118,7 @@ export class ComponentTable {
     let firstPage = lastPage - this.itemsPerPage;
 
     return (
-      <div>
+      <Host>
         <input
           name="search"
           type="text"
@@ -118,48 +126,50 @@ export class ComponentTable {
           onInput={(e: any) => this.search(e.target?.value)}
         />
 
-        <table>
-          <thead>
-            <tr>
-              {columns.map((column) => {
+        <div class="vt-wrapper">
+          <table>
+            <thead>
+              <tr>
+                {columns.map((column) => {
+                  return (
+                    <th onClick={() => this.sort(column)}>{column.label}</th>
+                  );
+                })}
+
+                {actions ? <th>Actions</th> : null}
+              </tr>
+            </thead>
+
+            <tbody>
+              {rows?.slice(firstPage, lastPage).map((row) => {
                 return (
-                  <th onClick={() => this.sort(column)}>{column.label}</th>
+                  <tr>
+                    {columns.map((column) => {
+                      return <td>{row[column.map]}</td>;
+                    })}
+
+                    {actions ? (
+                      <td class="action-col">
+                        {actions.edit ? (
+                          <a onClick={() => actions.edit(row)}>
+                            <vudo-icon name="pencil-outline"></vudo-icon>
+                          </a>
+                        ) : null}
+                        {actions.delete ? (
+                          <a onClick={() => actions.delete(row)}>
+                            <vudo-icon name="delete-outline"></vudo-icon>
+                          </a>
+                        ) : null}
+                      </td>
+                    ) : null}
+                  </tr>
                 );
               })}
+            </tbody>
+          </table>
+        </div>
 
-              {actions ? <th>Actions</th> : null}
-            </tr>
-          </thead>
-
-          <tbody>
-            {rows?.slice(firstPage, lastPage).map((row) => {
-              return (
-                <tr>
-                  {columns.map((column) => {
-                    return <td>{row[column.map]}</td>;
-                  })}
-
-                  {actions ? (
-                    <td class="action-col">
-                      {actions.edit ? (
-                        <a onClick={() => actions.edit(row)}>
-                          <vudo-icon name="pencil-outline"></vudo-icon>
-                        </a>
-                      ) : null}
-                      {actions.delete ? (
-                        <a onClick={() => actions.delete(row)}>
-                          <vudo-icon name="delete-outline"></vudo-icon>
-                        </a>
-                      ) : null}
-                    </td>
-                  ) : null}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-
-        <ul>
+        <ul class="vt-pagination">
           <li onClick={() => this.changePage("back")}>
             <vudo-icon name="chevron-left"></vudo-icon>
           </li>
@@ -177,7 +187,7 @@ export class ComponentTable {
             <vudo-icon name="chevron-right"></vudo-icon>
           </li>
         </ul>
-      </div>
+      </Host>
     );
   }
 }

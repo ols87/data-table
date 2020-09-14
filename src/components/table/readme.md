@@ -11,7 +11,7 @@
 | -------------- | ---------------- | ----------- | -------------------- | ------------------------------------------------------- |
 | `currentPage`  | `current-page`   |             | `number`             | `1`                                                     |
 | `data`         | --               |             | `TableDataInterface` | `{     columns: [],     rows: [],     actions: {},   }` |
-| `itemsPerPage` | `items-per-page` |             | `number`             | `4`                                                     |
+| `itemsPerPage` | `items-per-page` |             | `number`             | `100`                                                   |
 
 
 ## Events
