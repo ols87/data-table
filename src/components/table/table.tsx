@@ -44,8 +44,18 @@ export class ComponentTable {
     let temp: Array<TableRowInterface> = [...this.data.rows];
 
     temp.forEach((item: TableRowInterface) => {
-      if (item.name.toLowerCase().indexOf(search) > -1)
-        return result.push(item);
+      const properties = Object.values(item);
+
+      let match = false;
+
+      properties.forEach((property: any) => {
+        if (property.$elm$?.innerText) property = property.$elm$?.innerText;
+
+        if (property.toString().toLowerCase().indexOf(search) > -1)
+          match = true;
+      });
+
+      if (match) result.push(item);
     });
 
     if (this.viewData.rows.length < 1) this.viewData = { ...this.data };
@@ -169,24 +179,26 @@ export class ComponentTable {
           </table>
         </div>
 
-        <ul class="vt-pagination">
-          <li onClick={() => this.changePage("back")}>
-            <vudo-icon name="chevron-left"></vudo-icon>
-          </li>
-
-          {this.pagination(rows.length, this.itemsPerPage).map((item) => (
-            <li
-              class={this.currentPage === item ? "active" : ""}
-              onClick={() => (this.currentPage = item)}
-            >
-              {item}
+        {this.pagination(rows.length, this.itemsPerPage)?.length > 1 ? (
+          <ul class="vt-pagination">
+            <li onClick={() => this.changePage("back")}>
+              <vudo-icon name="chevron-left"></vudo-icon>
             </li>
-          ))}
 
-          <li onClick={() => this.changePage("next")}>
-            <vudo-icon name="chevron-right"></vudo-icon>
-          </li>
-        </ul>
+            {this.pagination(rows.length, this.itemsPerPage).map((item) => (
+              <li
+                class={this.currentPage === item ? "active" : ""}
+                onClick={() => (this.currentPage = item)}
+              >
+                {item}
+              </li>
+            ))}
+
+            <li onClick={() => this.changePage("next")}>
+              <vudo-icon name="chevron-right"></vudo-icon>
+            </li>
+          </ul>
+        ) : null}
       </Host>
     );
   }

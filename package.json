@@ -35,6 +35,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@vudo/icon": "^0.1.0"
+    "@vudo/icon": "^0.1.1"
   }
 }

@@ -24,7 +24,11 @@ export const data = {
     {
       id: 2,
       name: "Lael Greer",
-      address: <div>{(() => 1 + 1)()}</div>,
+      address: (
+        <div>
+          <span>{(() => 1 + 1)()}</span>
+        </div>
+      ),
     },
     {
       id: 3,
