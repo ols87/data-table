@@ -15,7 +15,7 @@ export class ComponentTable {
 
   @Prop() currentPage: number = 1;
 
-  @Prop() itemsPerPage: number = 4;
+  @Prop() itemsPerPage: number = 100;
 
   @Prop() data: TableDataInterface = {
     columns: [],
