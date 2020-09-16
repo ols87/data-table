@@ -41,21 +41,24 @@ export class ComponentTable {
 
     let result: Array<TableRowInterface> = [];
 
-    let temp: Array<TableRowInterface> = [...this.data.rows];
+    const rows: Array<TableRowInterface> = [...this.data.rows];
 
-    temp.forEach((item: TableRowInterface) => {
-      const properties = Object.values(item);
+    rows.forEach((row: TableRowInterface) => {
+      const cols = Object.values(row);
 
       let match = false;
 
-      properties.forEach((property: any) => {
-        if (property.$elm$?.innerText) property = property.$elm$?.innerText;
+      cols.forEach((value: any) => {
+        const temp = document.createElement("div");
 
-        if (property.toString().toLowerCase().indexOf(search) > -1)
-          match = true;
+        temp.innerHTML = value;
+
+        value = temp.innerText;
+
+        if (value.toString().toLowerCase().indexOf(search) > -1) match = true;
       });
 
-      if (match) result.push(item);
+      if (match) result.push(row);
     });
 
     if (this.viewData.rows.length < 1) this.viewData = { ...this.data };
@@ -155,7 +158,7 @@ export class ComponentTable {
                 return (
                   <tr>
                     {columns.map((column) => {
-                      return <td>{row[column.map]}</td>;
+                      return <td innerHTML={row[column.map]} />;
                     })}
 
                     {actions ? (
