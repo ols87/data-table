@@ -1,6 +1,6 @@
 {
   "name": "@vudo/table",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Vudo Table Component",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

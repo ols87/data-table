@@ -23,7 +23,7 @@ export class ComponentTable {
 
   @Prop() currentPage: number = 1;
 
-  @Prop() itemsPerPage: number = 100;
+  @Prop() itemsPerPage: number = 25;
 
   @Prop() data: TableDataInterface = {
     columns: [],
@@ -184,9 +184,11 @@ export class ComponentTable {
 
         {this.pagination(rows.length, this.itemsPerPage)?.length > 1 ? (
           <ul class="vt-pagination">
-            <li onClick={() => this.changePage("back")}>
-              <vudo-icon name="chevron-left"></vudo-icon>
-            </li>
+            {this.currentPage !== 1 ? (
+              <li onClick={() => this.changePage("back")}>
+                <vudo-icon name="chevron-left"></vudo-icon>
+              </li>
+            ) : null}
 
             {this.pagination(rows.length, this.itemsPerPage).map((item) => (
               <li
@@ -197,9 +199,12 @@ export class ComponentTable {
               </li>
             ))}
 
-            <li onClick={() => this.changePage("next")}>
-              <vudo-icon name="chevron-right"></vudo-icon>
-            </li>
+            {this.currentPage !==
+            this.viewData.rows.length / this.itemsPerPage ? (
+              <li onClick={() => this.changePage("next")}>
+                <vudo-icon name="chevron-right"></vudo-icon>
+              </li>
+            ) : null}
           </ul>
         ) : null}
       </Host>
